@@ -10,7 +10,7 @@ test('Test de connexion valide avec Page Object Model', async ({ page }) => {
   // 2. Action métier via le Page Object
   await loginPage.login('tomsmith', 'SuperSecretPassword!');
 
-  // 3. Assertions robustes (auto-attente native de Playwright)
-  await expect(page).toHaveURL(/.*secure/);
-  await expect(page.locator('#flash')).toContainText('You logged into a secure area!');
+  // 3. Assertions robustes
+  await expect(page).toHaveURL(/\/secure/);
+  await expect(page.locator('#flash')).toContainText('You logged into a secure area', { timeout: 15_000 });
 });

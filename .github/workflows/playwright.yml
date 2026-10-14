@@ -43,3 +43,11 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30
+    # 7. Envoyer les résultats des tests automatiquement vers Xray (Jira)
+    - name: Import test results to Xray
+      if: always() # S'exécute même si certains tests échouent
+      run: |
+        curl -D - -X POST "https://xray.cloud.getxray.app/api/v2/import/execution/junit?projectKey=VOTRE_PROJET" \
+             -H "Content-Type: application/xml" \
+             -u "${{ secrets.XRAY_CLIENT_ID }}:${{ secrets.XRAY_CLIENT_SECRET }}" \
+             --data-binary "@test-results/junit-report.xml"

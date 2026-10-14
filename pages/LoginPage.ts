@@ -8,14 +8,14 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    // Utilisation des sélecteurs sémantiques recommandés (getByRole)
-    this.usernameInput = page.getByRole('textbox', { name: /username/i });
-    this.passwordInput = page.getByRole('textbox', { name: /password/i });
+    // Un <input type="password"> n'a pas le rôle "textbox" : on passe par les labels
+    this.usernameInput = page.getByLabel('Username');
+    this.passwordInput = page.getByLabel('Password');
     this.submitButton = page.getByRole('button', { name: /login/i });
   }
 
   async goto() {
-    await this.page.goto('https://the-internet.herokuapp.com/login');
+    await this.page.goto('https://the-internet.herokuapp.com/login', { waitUntil: 'domcontentloaded' });
   }
 
   async login(username: string, pass: string) {
